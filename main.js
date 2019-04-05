@@ -3,8 +3,39 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+const ERROR_BAR = document.querySelector('#modal')
+const ERROR_MESSAGE = ERROR_BAR.querySelector('p')
 
+const hearts = {
+  '♡': '♥',
+  '♥': '♡'
+}
 
+document.addEventListener('click', function(e) {
+  if (e.target.className.includes('like-glyph')) {
+    mimicServerCall()
+      .then(() => toggleHearts(e.target))
+      .catch(function(message) {
+        showError(message)
+        setTimeout(() => hideError(), 5000);
+      })
+  }
+})
+
+function toggleHearts (heart) {
+  heart.innerText = hearts[heart.innerText]
+  heart.classList.toggle('activated-heart')
+}
+
+function showError (message) {
+  ERROR_MESSAGE.innerText = message
+  ERROR_BAR.className = ''
+}
+
+function hideError () {
+  ERROR_BAR.className = 'hidden'
+  ERROR_MESSAGE.innerText = ''
+}
 
 
 //------------------------------------------------------------------------------
